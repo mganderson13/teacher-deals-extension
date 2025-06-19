@@ -1,10 +1,11 @@
-console.log("running script");
+const loggerLabel = "Deals Extension"
+console.log(loggerLabel, "running script");
 const currentUrl = window.location;
-console.log("currentURL", currentUrl);
+console.log(loggerLabel, "currentURL", currentUrl);
 const baseUrl = window.location.origin;
-console.log("baseURL", baseUrl);
+console.log(loggerLabel, "baseURL", baseUrl);
 const hostnameUrl = window.location.hostname;
-console.log("hostnameURL", hostnameUrl);
+console.log(loggerLabel, "hostnameURL", hostnameUrl);
 
 const data = [
   "www.gap.com",
@@ -14,5 +15,7 @@ const data = [
 ]
 
 if(data.includes(hostnameUrl)){
-  console.log("🚨!!DEAL!!🚨");
+  console.log(loggerLabel, "🚨!!DEAL!!🚨");
+}else {
+  console.log(loggerLabel, "No deal found");
 }
