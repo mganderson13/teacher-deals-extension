@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Reading time",
+  "name": "Teacher Deals",
   "version": "1.0",
-  "description": "Add the reading time to Chrome Extension documentation articles",
+  "description": "This extension checks for deals while you shop!",
   "content_scripts": [
     {
       "js": ["scripts/content.js"],
