@@ -8,5 +8,11 @@
       "js": ["scripts/content.js"],
       "matches": ["<all_urls>"]
     }
+  ],
+    "web_accessible_resources": [
+    {
+      "resources": ["data/deals.json"],
+      "matches": ["<all_urls>"]
+    }
   ]
 }
