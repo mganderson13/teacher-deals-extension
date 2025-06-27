@@ -20,9 +20,11 @@ async function getData() {
   }
 }
 
+
+
 getData().then(() => {
   siteData.forEach((brand)=> {
-if (hostnameUrl.toLowerCase().includes(brand.Brand.toLowerCase())) {
+if (hostnameUrl.toLowerCase().includes(brand.Brand.toLowerCase().replace(/\s/g, ''))) {
     console.log(loggerLabel, "🚨!!DEAL!!🚨");
     return;
     }
