@@ -1,4 +1,4 @@
-.alertBanner {
+.discount-banner {
     position: fixed;
     top: 0;
     left: 0;
@@ -15,7 +15,7 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-#dismissBanner{
+#dismiss-banner{
     background: none;
     border: 1px solid white;
     color: black;
