@@ -3,13 +3,19 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("save").addEventListener("click", saveOptions);
 });
 
+document.getElementById("audienceSelector").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  saveOptions();
+});
+
 const saveOptions = () => {
-    const selector = document.getElementById("audienceSelector");
-    const selectedDeals = Array.from(selector.selectedOptions).map(option => option.value);
+    const checkboxes = document.querySelectorAll('input[name="dealOptions"]:checked');
+    const selectedOptions = Array.from(checkboxes).map(cb => cb.value);
+    console.log("Deals Extension", "Selected options:", selectedOptions);
 
     chrome.storage.sync.set(
-        //chosenDeals is object with key chosenDeals and value of array with selections
-        {selectedDeals}, () => {
+        {selectedOptions}, () => {
             const status = document.getElementById("status");
             status.textContent = "Deal Options Saved";
                   setTimeout(() => {
@@ -19,22 +25,21 @@ const saveOptions = () => {
 }
 
 // Restores selected options
+// Restores selected options
 const restoreOptions = () => {
-chrome.storage.sync.get({ selectedDeals: [] }, (data) => {
-    const selector = document.getElementById("audienceSelector");
+  chrome.storage.sync.get({ selectedOptions: [] }, (data) => {
+    // Get all checkboxes
+    const checkboxes = document.querySelectorAll('input[name="dealOptions"]');
 
-    // Clear any pre-selected values
-    Array.from(selector.options).forEach(option => {
-      option.selected = false;
-    });
+    // Clear all checkboxes
+    checkboxes.forEach(cb => cb.checked = false);
 
-    // Set saved selections
-    data.selectedDeals.forEach(savedValue => {
-      const match = Array.from(selector.options).find(option => option.value === savedValue);
+    // Check the ones that were saved
+    data.selectedOptions.forEach(savedValue => {
+      const match = Array.from(checkboxes).find(cb => cb.value === savedValue);
       if (match) {
-        console.log("Deals Extension", match)
-        match.selected = true;
+        match.checked = true;
       }
     });
   });
-}
+};

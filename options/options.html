@@ -7,15 +7,16 @@
 </head>
 <body>
     <h3>Select the types of deals you would like to be notified about:</h3>
-    <select id="audienceSelector" multiple>
-        <option value="Teacher">Teacher</option>
-        <option value="First Responder">First Responder</option>
-        <option value="Medical Professional">Medical Professional</option>        
-        <option value="Military">Military</option>
-        <option value="Student">Student</option>
-    </select>
+    <form id="audienceSelector">
+        <label><input type="checkbox" name="dealOptions" value="Teacher">Teacher</label><br>
+        <label><input type="checkbox" name="dealOptions" value="First Responder">First Responder</label><br>
+        <label><input type="checkbox" name="dealOptions" value="Medical Professional">Medical Professional</label><br>
+        <label><input type="checkbox" name="dealOptions" value="Military">Military</label><br>
+        <label><input type="checkbox" name="dealOptions" value="Student">Student</label><br>
+        
+        <button type="submit">Save</button>
+    </form>
     
-    <button id="save">Save</button>
     <div id="status"></div>
 
     <script src="options.js"></script>
