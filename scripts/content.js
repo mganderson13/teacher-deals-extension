@@ -50,20 +50,20 @@ if (hostnameUrl.toLowerCase().includes(brand.Brand.toLowerCase().replace(/\s/g, 
 });
 
 //OPTIONS
-//Save options in options.js - access in content.js??
-// function dealsOptions() {
-//   const optionsSelector = document.getElementById("audience");
-//   const selectedOptions = optionsSelector.selectedOptions;
-//   const chosenDeals = Array.from(selectedOptions).map(option => option.value);
+//Save options in options.js - access in content.js
+// function getOptions() {
+//   chrome.storage.sync.get({ selectedDeals: [] }, (data) => {
+//     if (data.selectedDeals.length > 0) {
+//       const showDeals = data.selectedDeals;
+//       return showDeals;
+//     } else {
+//       return;
+//     }
+//   }
+// )
 // }
-//receive options from options.html
-//save options in array
-//if hostnameURL is in Brand then check
-//for each Option - 
-//Audience has key matching options
-//if at least one audience key exists, show banner
-//show text "this site has deals for ${Option}, click on this link ${Options key value} to access deal"
+
 
 //what if no options selected?
-//what if multiple options selected?
-  //save options in array, for each option do the above
+//If no options are currently selected, the collection is empty and returns a length of 0.
+
