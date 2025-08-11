@@ -1,13 +1,20 @@
 const loggerLabel = "Deals Extension"
 console.log(loggerLabel, "running script");
-const currentUrl = window.location;
-console.log(loggerLabel, "currentURL", currentUrl);
-const baseUrl = window.location.origin;
-console.log(loggerLabel, "baseURL", baseUrl);
 const hostnameUrl = window.location.hostname;
 console.log(loggerLabel, "hostnameURL", hostnameUrl);
 
 let siteData = [];
+let optionsArray = []
+
+//store selectedOptions in an array from chrome storage
+function storeOptions() {
+chrome.storage.sync.get({ selectedOptions: [] }, (data) => {
+  optionsArray = data.selectedOptions;
+  console.log(loggerLabel, "optionsArray", optionsArray);
+  })
+}
+
+
 
 async function getData() {
   const jsonURL = chrome.runtime.getURL("data/deals.json");
@@ -43,27 +50,9 @@ getData().then(() => {
   siteData.forEach((brand)=> {
 if (hostnameUrl.toLowerCase().includes(brand.Brand.toLowerCase().replace(/\s/g, ''))) {
     console.log(loggerLabel, "🚨!!DEAL!!🚨");
+  storeOptions();
     showBanner();
     return;
     }
   })
 });
-
-//OPTIONS
-//Save options in options.js - access in content.js
-// function getOptions() {
-//   chrome.storage.sync.get({ selectedDeals: [] }, (data) => {
-//     if (data.selectedDeals.length > 0) {
-//       const showDeals = data.selectedDeals;
-//       return showDeals;
-//     } else {
-//       return;
-//     }
-//   }
-// )
-// }
-
-
-//what if no options selected?
-//If no options are currently selected, the collection is empty and returns a length of 0.
-

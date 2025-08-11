@@ -33,7 +33,6 @@ const restoreOptions = () => {
 
     // Clear all checkboxes
     checkboxes.forEach(cb => cb.checked = false);
-
     // Check the ones that were saved
     data.selectedOptions.forEach(savedValue => {
       const match = Array.from(checkboxes).find(cb => cb.value === savedValue);
