@@ -78,31 +78,28 @@ getData().then(async () => {
   await storeOptions();
 
   if (optionsArray.length > 0 && brandsArray[0]?.Audience) {
-        optionsArray.forEach((option) => {
+      
+      optionsArray.forEach((option) => {
       // find object in Audience array where the key matches the option
       const match = brandsArray[0].Audience.find(a => a[option]);
       console.log(loggerLabel, "match:", match);
       if (match) {
-        const url = match[option];
-        console.log(loggerLabel, "audience link", url);
         bannerContent.push(match);
       }
+      });
 
-    showBanner();
+      if(bannerContent.length > 0){
+          showBanner();
+      }
 
-
-    });
   } else if (optionsArray.length === 0 && brandsArray[0]?.Audience) {
     const audienceArray = brandsArray[0].Audience;
 
     audienceArray.forEach(audienceObj => {
-      const audienceType = Object.keys(audienceObj)[0];
-      const url = audienceObj[audienceType];
-
       bannerContent.push(audienceObj);
-
+    });
+    
     showBanner();
-});
   }
 
   console.log(loggerLabel, "bannerContent:", bannerContent);
