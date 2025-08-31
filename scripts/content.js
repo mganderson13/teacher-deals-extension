@@ -7,6 +7,7 @@ let siteData = [];
 let optionsArray = [];
 let brandsArray = [];
 let bannerContent = [];
+let dismissed;
 
 async function getData() {
   const jsonURL = chrome.runtime.getURL("data/deals.json");
@@ -56,11 +57,27 @@ function showBanner() {
   document.body.appendChild(banner);
 
   dismissButton.addEventListener("click", () => {
+    // Save dismissed state for this hostname
+    chrome.storage.local.set({ [`dismissed_${hostnameUrl}`]: true }, () => {
+      console.log(loggerLabel, `Dismissed banner for ${hostnameUrl}`);
+    });
     banner.remove();
     document.body.style.paddingTop = "0";
   });
 }
 
+function checkDismissed() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(`dismissed_${hostnameUrl}`, (result) => {
+      if (result[`dismissed_${hostnameUrl}`]) {
+        console.log(loggerLabel, "Banner dismissed earlier, not showing again.");
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  });
+}
 
 getData().then(async () => {
   // find matching brand first
@@ -77,6 +94,9 @@ getData().then(async () => {
   // wait for options to load
   await storeOptions();
 
+  // wait for dismissal check
+  dismissed = await checkDismissed();
+
   if (optionsArray.length > 0 && brandsArray[0]?.Audience) {
       
       optionsArray.forEach((option) => {
@@ -88,7 +108,9 @@ getData().then(async () => {
       }
       });
 
-      if(bannerContent.length > 0){
+      
+
+      if(bannerContent.length > 0 && !dismissed){
           showBanner();
       }
 
@@ -99,7 +121,9 @@ getData().then(async () => {
       bannerContent.push(audienceObj);
     });
     
+    if (!dismissed) {
     showBanner();
+    }
   }
 
   console.log(loggerLabel, "bannerContent:", bannerContent);
