@@ -24,7 +24,10 @@
   ],
     "web_accessible_resources": [
     {
-      "resources": ["data/deals.json"],
+      "resources": [
+        "data/deals.json",
+          "icons/*.png"
+        ],
       "matches": ["<all_urls>"]
     }
   ],

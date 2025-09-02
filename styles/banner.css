@@ -19,6 +19,17 @@ a {
   text-decoration: underline;
 }
 
+img {
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
+}
+
+#iconTextContainer {
+    display: flex;
+    flex-direction: row;
+}
+
 #dismiss-banner{
     background: none;
     border: 1px solid white;

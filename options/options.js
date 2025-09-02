@@ -1,11 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   restoreOptions(); // Load saved deals when the page opens
-  document.getElementById("save").addEventListener("click", saveOptions);
 });
 
 document.getElementById("audienceSelector").addEventListener("submit", function(event) {
   event.preventDefault();
-
   saveOptions();
 });
 

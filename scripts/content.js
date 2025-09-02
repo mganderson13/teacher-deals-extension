@@ -34,6 +34,13 @@ function storeOptions() {
 function showBanner() {
   const banner = document.createElement("div");
   banner.className = "discount-banner";
+  
+  const iconTextContainer = document.createElement("div");
+  iconTextContainer.id= "iconTextContainer";
+  const icon = document.createElement("img");
+  icon.src = chrome.runtime.getURL("icons/icon16.png"); 
+  icon.alt="Deal Finder";
+
 
   const textContainer = document.createElement("div");
 
@@ -50,7 +57,9 @@ function showBanner() {
   dismissButton.id = "dismiss-banner";
   dismissButton.textContent = "Dismiss";
 
-  banner.appendChild(textContainer);
+  iconTextContainer.appendChild(icon);
+  iconTextContainer.appendChild(textContainer);
+  banner.appendChild(iconTextContainer);
   banner.appendChild(dismissButton);
 
   document.body.style.paddingTop = "50px";
