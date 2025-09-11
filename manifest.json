@@ -26,7 +26,8 @@
     {
       "resources": [
         "data/deals.json",
-          "icons/*.png"
+        "icons/*.png",
+        "styles/banner.css"
         ],
       "matches": ["<all_urls>"]
     }

@@ -32,6 +32,17 @@ function storeOptions() {
 }
 
 function showBanner() {
+  // Create a container in the page to host the shadow root
+  const container = document.createElement("div");
+  document.body.appendChild(container)
+  const shadow = container.attachShadow({ mode: "open" });
+
+  // Add external CSS file from extension
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = chrome.runtime.getURL("styles/banner.css"); 
+  shadow.appendChild(link);
+
   const banner = document.createElement("div");
   banner.className = "discount-banner";
   
@@ -40,7 +51,6 @@ function showBanner() {
   const icon = document.createElement("img");
   icon.src = chrome.runtime.getURL("icons/icon16.png"); 
   icon.alt="Deal Finder";
-
 
   const textContainer = document.createElement("div");
 
@@ -61,32 +71,40 @@ function showBanner() {
   iconTextContainer.appendChild(textContainer);
   banner.appendChild(iconTextContainer);
   banner.appendChild(dismissButton);
+  shadow.appendChild(banner);
 
   document.body.style.paddingTop = "50px";
-  document.body.appendChild(banner);
 
-  dismissButton.addEventListener("click", () => {
-    // Save dismissed state for this hostname
-    chrome.storage.local.set({ [`dismissed_${hostnameUrl}`]: true }, () => {
-      console.log(loggerLabel, `Dismissed banner for ${hostnameUrl}`);
-    });
-    banner.remove();
-    document.body.style.paddingTop = "0";
+dismissButton.addEventListener("click", () => {
+  const timestamp = Date.now(); // current time in ms
+  chrome.storage.local.set({ [`dismissed_${hostnameUrl}`]: timestamp }, () => {
+    console.log(loggerLabel, `Dismissed banner for ${hostnameUrl} at ${new Date(timestamp)}`);
   });
+  container.remove();
+  document.body.style.paddingTop = "0";
+});
+
 }
 
 function checkDismissed() {
+  const ONE_DAY = 24 * 60 * 60 * 1000; // 24 hours in ms
+
   return new Promise((resolve) => {
     chrome.storage.local.get(`dismissed_${hostnameUrl}`, (result) => {
-      if (result[`dismissed_${hostnameUrl}`]) {
-        console.log(loggerLabel, "Banner dismissed earlier, not showing again.");
-        resolve(true);
-      } else {
-        resolve(false);
+      const lastDismissed = result[`dismissed_${hostnameUrl}`];
+      if (lastDismissed) {
+        const age = Date.now() - lastDismissed;
+        if (age < ONE_DAY) {
+          console.log(loggerLabel, `Banner dismissed ${Math.round(age / 1000)}s ago, not showing again yet.`);
+          resolve(true); // still within 24h, suppress banner
+          return;
+        }
       }
+      resolve(false); // expired or never dismissed
     });
   });
 }
+
 
 getData().then(async () => {
   // find matching brand first
